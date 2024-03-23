@@ -1,4 +1,4 @@
-# Clean Code with Java: Learn Simple Design, Refactoring & TDD
+# Clean Code with Java: Simple Design, Refactoring & TDD
 
 Learn to Write Clean Code with Java. Get Hands-on with Code Examples involving 4 principles of Simple Design, Refactoring & TDD.
 
@@ -89,6 +89,3 @@ Learn to Write Clean Code with Java. Get Hands-on with Code Examples involving 4
 - Step 07 - Test Driven Development - TDD - Exercise - Bowling Kata - Spare
 - Step 08 - Test Driven Development - TDD - Exercise - Bowling Kata - Strike
 - Step 09 - 3 Tips for Test Driven Development - TDD
-
-#### Thank You
-- Clean Code with Simple Design, Refactoring and TDD - Thank You

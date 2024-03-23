@@ -24,19 +24,6 @@ public class GildedRoseADefaultItemTest {
         assertItem(expectedItem, actualItem);
     }
 
-    private static void assertItem(Item expectedItem, Item actualItem) {
-        assertEquals(expectedItem.name, actualItem.name);
-        assertEquals(expectedItem.sellIn, actualItem.sellIn);
-        assertEquals(expectedItem.quality, actualItem.quality);
-    }
-
-    private GildedRose getGildedRoseWithOneItem(String defaultItem, int unExpiredSellin, int defaultQuality) {
-        Item item = new Item(defaultItem, unExpiredSellin, defaultQuality);
-        Item[] items = new Item[]{item};
-        GildedRose app = new GildedRose(items);
-        return app;
-    }
-
     @Test
     public void shouldDecreaseSellInBy1AndQualityBy2WhenExpiredDefaultItemIsProvided() {
         GildedRose app = getGildedRoseWithOneItem(DEFAULT_ITEM, EXPIRED_SELLIN, QUALITY);
@@ -47,5 +34,18 @@ public class GildedRoseADefaultItemTest {
         Item expectedItem = new Item(DEFAULT_ITEM, EXPIRED_SELLIN - 1, QUALITY - 2);
 
         assertItem(expectedItem, actualItem);
+    }
+
+    private GildedRose getGildedRoseWithOneItem(String defaultItem, int unExpiredSellin, int defaultQuality) {
+        Item item = new Item(defaultItem, unExpiredSellin, defaultQuality);
+        Item[] items = new Item[]{item};
+        GildedRose app = new GildedRose(items);
+        return app;
+    }
+
+    private static void assertItem(Item expectedItem, Item actualItem) {
+        assertEquals(expectedItem.name, actualItem.name);
+        assertEquals(expectedItem.sellIn, actualItem.sellIn);
+        assertEquals(expectedItem.quality, actualItem.quality);
     }
 }
