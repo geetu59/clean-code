@@ -1,41 +1,60 @@
 package com.a.introduction.gildedrose;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GildedRoseBAgedBrieTest {
 
-	@Test
-	public void testUpdateQualityAgedBrie1() {
-		Item item = new Item("Aged Brie", 4, 3);
-		Item[] items = new Item[] { item };
-		GildedRose app = new GildedRose(items);
-		app.updateQuality();
-		assertEquals("Aged Brie", app.items[0].name);
-		assertEquals(3, app.items[0].sellIn);
-		assertEquals(4, app.items[0].quality);
-	}
+    public static final String ITEM_NAME = "Aged Brie";
+    public static final int UNEXPIRED_SELL_IN = 4;
+    public static final int DEFAULT_QUALITY = 3;
+    public static final int EXPIRED_SELLIN = -1;
+    public static final int QUALITY = 50;
 
-	@Test
-	public void testUpdateQualityAgedBrie2() {
-		Item item = new Item("Aged Brie", -1, 3);
-		Item[] items = new Item[] { item };
-		GildedRose app = new GildedRose(items);
-		app.updateQuality();
-		assertEquals("Aged Brie", app.items[0].name);
-		assertEquals(-2, app.items[0].sellIn);
-		assertEquals(5, app.items[0].quality);
-	}
+    @Test
+    public void shouldDecreaseSellinBy1AndIncreaseQualityBy1WhenUnexpiredSellinIsProvided() {
+        GildedRose app = getGildedRose(ITEM_NAME, UNEXPIRED_SELL_IN, DEFAULT_QUALITY);
 
-	@Test
-	public void testUpdateQualityAgedBrie3() {
-		Item item = new Item("Aged Brie", 4, 50);
-		Item[] items = new Item[] { item };
-		GildedRose app = new GildedRose(items);
-		app.updateQuality();
-		assertEquals("Aged Brie", app.items[0].name);
-		assertEquals(3, app.items[0].sellIn);
-		assertEquals(50, app.items[0].quality);
-	}
+        app.updateQuality();
+
+        Item actualItem = app.items[0];
+        Item expectedItem = new Item(ITEM_NAME, UNEXPIRED_SELL_IN - 1, DEFAULT_QUALITY + 1);
+        assertItem(expectedItem, actualItem);
+    }
+
+    @Test
+    public void shouldDecreaseSellinBy1AndIncreaseQualityBy2WhenExpiredSellinIsProvided() {
+        GildedRose app = getGildedRose(ITEM_NAME, EXPIRED_SELLIN, DEFAULT_QUALITY);
+
+        app.updateQuality();
+
+        Item actualItem = app.items[0];
+        Item expectedItem = new Item(ITEM_NAME, EXPIRED_SELLIN - 1, DEFAULT_QUALITY + 2);
+        assertItem(expectedItem, actualItem);
+    }
+
+    @Test
+    public void shouldDecreaseSellinBy1WhenUnexpiredSellinIsProvided() {
+        GildedRose app = getGildedRose(ITEM_NAME, UNEXPIRED_SELL_IN, QUALITY);
+
+        app.updateQuality();
+
+        Item actualItem = app.items[0];
+        Item expectedItem = new Item(ITEM_NAME, UNEXPIRED_SELL_IN - 1, QUALITY);
+        assertItem(expectedItem, actualItem);
+    }
+
+    private static GildedRose getGildedRose(String itemName, int unexpiredSellIn, int quality) {
+        Item item = new Item(itemName, unexpiredSellIn, quality);
+        Item[] items = new Item[]{item};
+        GildedRose app = new GildedRose(items);
+        return app;
+    }
+
+    private static void assertItem(Item expectedItem, Item actualItem) {
+        assertEquals(expectedItem.name, actualItem.name);
+        assertEquals(expectedItem.sellIn, actualItem.sellIn);
+        assertEquals(expectedItem.quality, actualItem.quality);
+    }
 }
