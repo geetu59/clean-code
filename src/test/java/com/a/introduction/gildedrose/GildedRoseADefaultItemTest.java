@@ -18,10 +18,9 @@ public class GildedRoseADefaultItemTest {
 
         app.updateQuality();
 
-        Item actualItem = app.items[0];
         Item expectedItem = new Item(DEFAULT_ITEM, UN_EXPIRED_SELLIN - 1, DEFAULT_QUALITY - 1);
 
-        assertItem(expectedItem, actualItem);
+        assertItem(expectedItem, app.items[0]);
     }
 
     @Test
@@ -30,10 +29,9 @@ public class GildedRoseADefaultItemTest {
 
         app.updateQuality();
 
-        Item actualItem = app.items[0];
         Item expectedItem = new Item(DEFAULT_ITEM, EXPIRED_SELLIN - 1, QUALITY - 2);
 
-        assertItem(expectedItem, actualItem);
+        assertItem(expectedItem, app.items[0]);
     }
 
     private GildedRose getGildedRoseWithOneItem(String defaultItem, int unExpiredSellin, int defaultQuality) {

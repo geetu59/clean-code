@@ -18,9 +18,8 @@ public class GildedRoseBAgedBrieTest {
 
         app.updateQuality();
 
-        Item actualItem = app.items[0];
         Item expectedItem = new Item(ITEM_NAME, UNEXPIRED_SELL_IN - 1, DEFAULT_QUALITY + 1);
-        assertItem(expectedItem, actualItem);
+        assertItem(expectedItem, app.items[0]);
     }
 
     @Test
@@ -29,9 +28,8 @@ public class GildedRoseBAgedBrieTest {
 
         app.updateQuality();
 
-        Item actualItem = app.items[0];
         Item expectedItem = new Item(ITEM_NAME, EXPIRED_SELLIN - 1, DEFAULT_QUALITY + 2);
-        assertItem(expectedItem, actualItem);
+        assertItem(expectedItem, app.items[0]);
     }
 
     @Test
@@ -40,9 +38,8 @@ public class GildedRoseBAgedBrieTest {
 
         app.updateQuality();
 
-        Item actualItem = app.items[0];
         Item expectedItem = new Item(ITEM_NAME, UNEXPIRED_SELL_IN - 1, QUALITY);
-        assertItem(expectedItem, actualItem);
+        assertItem(expectedItem, app.items[0]);
     }
 
     private static GildedRose getGildedRose(String itemName, int unexpiredSellIn, int quality) {
