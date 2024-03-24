@@ -33,19 +33,6 @@ public class CustomerBOTest {
         assertAmount(expectedAmount, (AmountImpl) customerBO.getCustomerProductsSum(products));
     }
 
-    private static void assertAmount(Amount actualAmount, AmountImpl expectedAmount) {
-        assertEquals(expectedAmount.getCurrency(), actualAmount.getCurrency());
-        assertEquals(expectedAmount.getValue(), actualAmount.getValue());
-    }
-
-    //Since we have nothing to do with products info, hence changing amount info, adding it and returning list of products
-    private static List<Product> getProducts(Amount[] amounts) {
-        return Arrays.stream(amounts)
-                .map(amount ->
-                        new ProductImpl(100, "Product 15", ProductType.BANK_GUARANTEE, amount))
-                .collect(Collectors.toList());
-    }
-
     @Test
     public void testCustomerProductSum1() {
 
@@ -68,7 +55,6 @@ public class CustomerBOTest {
         } catch (DifferentCurrenciesException e) {
         }
     }
-
     @Test
     public void testCustomerProductSum2() {
 
@@ -82,6 +68,19 @@ public class CustomerBOTest {
         }
         assertEquals(Currency.EURO, temp.getCurrency());
         assertEquals(BigDecimal.ZERO, temp.getValue());
+    }
+
+    private static void assertAmount(Amount actualAmount, AmountImpl expectedAmount) {
+        assertEquals(expectedAmount.getCurrency(), actualAmount.getCurrency());
+        assertEquals(expectedAmount.getValue(), actualAmount.getValue());
+    }
+
+    //Since we have nothing to do with products info, hence changing amount info, adding it and returning list of products
+    private static List<Product> getProducts(Amount[] amounts) {
+        return Arrays.stream(amounts)
+                .map(amount ->
+                        new ProductImpl(100, "Product 15", ProductType.BANK_GUARANTEE, amount))
+                .collect(Collectors.toList());
     }
 
 }
