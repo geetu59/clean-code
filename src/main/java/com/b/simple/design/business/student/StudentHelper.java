@@ -40,11 +40,11 @@ public class StudentHelper {
     public String getGrade(int mark, boolean isMaths) {
         int extraLimit = isMaths ? 5 : 0;
         if (mark > 90 + extraLimit)
-            return "A";
+            return Grade.A.toString();
         if (mark > 50 + extraLimit) {
-            return "B";
+            return Grade.B.toString();
         }
-        return "C";
+        return Grade.C.toString();
     }
 
     /*  PROBLEM 3
@@ -61,13 +61,15 @@ public class StudentHelper {
      *
      * marks1 - your marks
      * marks2 - your friends marks
+     * Refactoring:
+     * 1. Check the extra limit for maths, extract it and apply limit there itself
+     * 2. You may extract logic inside if condition to a method
      */
 
     public String willQualifyForQuiz(int marks1, int marks2, boolean isMaths) {
-        if ((isMaths ? marks1 <= 25 : marks1 <= 20)
-                || (isMaths ? marks2 <= 25 : marks2 <= 20)) return "NO";
-        if ((isMaths ? marks1 >= 85 : marks1 >= GRADE_B_UPPER_LIMIT)
-                || (isMaths ? marks2 >= 85 : marks2 >= GRADE_B_UPPER_LIMIT)) return "YES";
+        int extraLimit = isMaths ? 5 : 0;
+        if ((marks1 <= 20 + extraLimit) || (marks2 <= 20 + extraLimit)) return "NO";
+        if ((marks1 >= 80 + extraLimit) || (marks2 >= 80 + extraLimit)) return "YES";
         return "MAYBE";
     }
 
