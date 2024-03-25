@@ -1,48 +1,57 @@
 package com.c.refactoring.menuexamples;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class MenuAccessTest {
+    public static final MenuItem MENU_ITEM = new MenuItem("A", "MenuARead", "MenuAWrite");
+    public static final Role MENU_A_READ = new Role("MenuARead");
+    public static final Role MENU_A_WRITE = new Role("MenuAWrite");
+    MenuAccess menuAccess = new MenuAccess();
 
     @Test
-    public void testSetAuthorizationsInEachMenus() {
-
-        Role[] userRoles = { new Role("MenuARead"), new Role("MenuBWrite"),
-                new Role("MenuCRead"), new Role("MenuCWrite") };
-
-        MenuItem[] menuItemsArray = {
-                new MenuItem("A", "MenuARead", "MenuAWrite"),
-                new MenuItem("B", "MenuBRead", "MenuBWrite"),
-                new MenuItem("C", "MenuCRead", "MenuCWrite"),
-                new MenuItem("D", "MenuDRead", "MenuDWrite")
-        };
-
-        List<MenuItem> menuItems = Arrays.asList(menuItemsArray);
-
-        MenuAccess menuAccess = new MenuAccess();
+    public void testSetAuthorizationsInEachMenus1() {
+        Role[] userRoles = {MENU_A_READ, MENU_A_WRITE};
+        List<MenuItem> menuItems = Collections.singletonList(MENU_ITEM);
 
         menuAccess.setAuthorizationsInEachMenus(menuItems, userRoles);
 
-        MenuItem menuItemA = menuItems.get(0);
-        assertEquals(Constants.READ, menuItemA.getAccess());
-        assertEquals(true, menuItemA.isVisible());
+        assertIsReadable(menuItems.get(0));
+    }
 
-        MenuItem menuItemB = menuItems.get(1);
-        assertEquals(Constants.WRITE, menuItemB.getAccess());
-        assertEquals(true, menuItemB.isVisible());
+    @Test
+    public void testSetAuthorizationsInEachMenus2() {
+        Role[] userRoles = {MENU_A_READ, MENU_A_WRITE};
+        List<MenuItem> menuItems = Collections.singletonList(MENU_ITEM);
 
-        MenuItem menuItemC = menuItems.get(2);
-        assertEquals(Constants.WRITE, menuItemC.getAccess());
-        assertEquals(true, menuItemC.isVisible());
+        menuAccess.setAuthorizationsInEachMenus(menuItems, userRoles);
 
-        MenuItem menuItemD = menuItems.get(3);
-        assertEquals(null, menuItemD.getAccess());
-        assertEquals(false, menuItemD.isVisible());
+        assertIsWritable(menuItems.get(0));
+    }
 
+    @Test
+    public void testSetAuthorizationsInEachMenus3() {
+        Role[] userRoles = {MENU_A_READ, MENU_A_WRITE};
+        List<MenuItem> menuItems = Arrays.asList(MENU_ITEM);
+
+        menuAccess.setAuthorizationsInEachMenus(menuItems, userRoles);
+
+        assertIsWritable(menuItems.get(0));
+    }
+
+    private static void assertIsWritable(MenuItem menuItem) {
+        assertEquals(Constants.WRITE, menuItem.getAccess());
+        assertTrue(menuItem.isVisible());
+    }
+
+    private static void assertIsReadable(MenuItem menuItem) {
+        assertEquals(Constants.READ, menuItem.getAccess());
+        assertTrue(menuItem.isVisible());
     }
 }
