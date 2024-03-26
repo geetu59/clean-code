@@ -2,7 +2,6 @@ package com.c.refactoring.menuexamples;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,8 +15,8 @@ public class MenuAccessTest {
     MenuAccess menuAccess = new MenuAccess();
 
     @Test
-    public void testSetAuthorizationsInEachMenus1() {
-        Role[] userRoles = {MENU_A_READ, MENU_A_WRITE};
+    public void testSetAuthorizationsInEachMenusWhenUseHasOnlyReadRole() {
+        Role[] userRoles = {MENU_A_READ};
         List<MenuItem> menuItems = Collections.singletonList(MENU_ITEM);
 
         menuAccess.setAuthorizationsInEachMenus(menuItems, userRoles);
@@ -26,8 +25,8 @@ public class MenuAccessTest {
     }
 
     @Test
-    public void testSetAuthorizationsInEachMenus2() {
-        Role[] userRoles = {MENU_A_READ, MENU_A_WRITE};
+    public void testSetAuthorizationsInEachMenusWhenUseHasOnlyWriteRole() {
+        Role[] userRoles = {MENU_A_WRITE};
         List<MenuItem> menuItems = Collections.singletonList(MENU_ITEM);
 
         menuAccess.setAuthorizationsInEachMenus(menuItems, userRoles);
@@ -36,9 +35,9 @@ public class MenuAccessTest {
     }
 
     @Test
-    public void testSetAuthorizationsInEachMenus3() {
+    public void testSetAuthorizationsInEachMenusWhenUseHasReadAndWriteRole() {
         Role[] userRoles = {MENU_A_READ, MENU_A_WRITE};
-        List<MenuItem> menuItems = Arrays.asList(MENU_ITEM);
+        List<MenuItem> menuItems = Collections.singletonList(MENU_ITEM);
 
         menuAccess.setAuthorizationsInEachMenus(menuItems, userRoles);
 
