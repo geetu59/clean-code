@@ -5,49 +5,49 @@ import java.util.List;
 
 public class UserLoginChecker {
 
+    public static final int MAX_LOCK_PERIOD_IN_MS = 60 * 60 * 1000;
+
     /**
      * {@inheritDoc}.
      */
-    public Lock isUserAllowedToLogin(long id, String status,
-            boolean firstScreen, User user, List list) {
+    /*Refactor:
+     * 1. remove unused params from method
+     * 2. Method checks for existing locks and accordingly provided to new userTryingToLogin and hence rename variable
+     * 3. Creating lock obj wherever we are setting and then move corresponding lines to method
+     * 4. When we have if() return, no else then remove that if
+     * 5. When we return in if else blocks then remove else if/else, only have if
+     * 6. Put variables near to where it is being used
+     * 7. If user is same then give write access and if it's first screen then also, so remove condition from there and add it first*/
+    public Lock isUserAllowedToLogin(boolean firstScreen, User userTryingToLogin, List existingLocks) {
+        if (existingLocks.size() == 0 && existingLocks.get(0) == null) return createWriteLock();
+
+        Object[] object = (Object[]) existingLocks.get(0);
+        String userIdWithLock = (String) object[0];
+
+        if (userIdWithLock == null) return createWriteLock();
+
+        boolean userSameAsTryingToLogin = userIdWithLock.equalsIgnoreCase(userTryingToLogin.getUserId());
+        if (userSameAsTryingToLogin) return createWriteLock();
+
         Date time = new Date();
-        Lock lck = new Lock();
-        if (list.size() > 0 && list.get(0) != null) {
-            Object[] object = (Object[]) list.get(0);
-            String userId = (String) object[0];
-            Date lockTimestamp = (Date) object[1];
-            if (userId != null) {
-                // message which is shown to the user 
-                String lockMsg = Constants.LOCK_TEXT.replaceAll("@@USER@@",
-                        userId);
-                //if userID is present, the Lock time stamp will also be present
-                //4800000 milliseconds equals to 1 1/2 hours.
-                if (time.getTime() - lockTimestamp.getTime() > 3600000) {
-                    //New user gets lock only on first screen 
-                    //If 1 1/2 hours expires when user is not on 1st screen then for same user lock can be refreshed.
-                    if (firstScreen
-                            || userId.equalsIgnoreCase(user.getUserId())) {
-                        //to set the  access to write mode
-                        lck.setRead(false);
-                        return lck;
-                    }
-                    lck.setRead(true);
-                    //Only read access is permitted to other user
-                    lck.setLockReason(lockMsg);
-                    return lck;
-                } else if (userId.equalsIgnoreCase(user.getUserId())) {
-                    // Locked By Same User, Write access
-                    lck.setRead(false);
-                    return lck;
-                } else {
-                    lck.setRead(true);
-                    //Only Read Access is Permitted
-                    lck.setLockReason(lockMsg);
-                    return lck;
-                }
-            }
-        }
-        lck.setRead(false);
-        return lck;
+        Date lockTimestamp = (Date) object[1];
+        long timeElapsedSinceLock = time.getTime() - lockTimestamp.getTime();
+        if (firstScreen || timeElapsedSinceLock > MAX_LOCK_PERIOD_IN_MS) return createWriteLock();
+
+        String lockMsg = Constants.LOCK_TEXT.replaceAll("@@USER@@", userIdWithLock);
+        return createReadLock(lockMsg);
+    }
+
+    private static Lock createWriteLock() {
+        Lock lock = new Lock();
+        lock.setRead(false);
+        return lock;
+    }
+
+    private static Lock createReadLock(String lockMsg) {
+        Lock lock = new Lock();
+        lock.setRead(true);
+        lock.setLockReason(lockMsg);
+        return lock;
     }
 }
