@@ -16,7 +16,7 @@ public class UserLoginCheckerTest {
     public void testisUserAllowedToLogin_DifferentUserTriesImmediatelyAfter() {
         Object[] existingLock = new Object[]{"TEST_USER_ID_1", new Date()};
 
-        Lock lock = userLoginChecker.isUserAllowedToLogin(ID, STATUS, true, new User(
+        Lock lock = userLoginChecker.isUserAllowedToLogin(true, new User(
                 "TEST_USER_ID_2"), Arrays.asList(new Object[][]{existingLock}));
 
         assertReadAccess(lock);
@@ -26,7 +26,7 @@ public class UserLoginCheckerTest {
     public void testisUserAllowedToLogin_SameUserReturnsToFirstScreen() {
         Object[] existingLock = new Object[]{"TEST_USER_ID", new Date()};
 
-        Lock lock = userLoginChecker.isUserAllowedToLogin(ID, STATUS, true, new User(
+        Lock lock = userLoginChecker.isUserAllowedToLogin(true, new User(
                 "TEST_USER_ID"), Arrays.asList(new Object[][]{existingLock}));
 
         assetWriteAccess(lock);
@@ -36,7 +36,7 @@ public class UserLoginCheckerTest {
     public void testisUserAllowedToLogin_SameUserReturnsToSecondScreen() {
         Object[] existingLock = new Object[]{"TEST_USER_ID", new Date()};
 
-        Lock lock = userLoginChecker.isUserAllowedToLogin(ID, STATUS, false, new User(
+        Lock lock = userLoginChecker.isUserAllowedToLogin(false, new User(
                 "TEST_USER_ID"), Arrays.asList(new Object[][]{existingLock}));
 
         assetWriteAccess(lock);
@@ -46,7 +46,7 @@ public class UserLoginCheckerTest {
     public void testisUserAllowedToLogin_User2TriesToLoginToFirstScreen3hoursAfterUser1() {
         Object[] existingLock = new Object[]{"TEST_USER_ID_1", threeHoursBefore()};
 
-        Lock lock = userLoginChecker.isUserAllowedToLogin(ID, STATUS, true, new User(
+        Lock lock = userLoginChecker.isUserAllowedToLogin(true, new User(
                 "TEST_USER_ID_2"), Arrays.asList(new Object[][]{existingLock}));
 
         assetWriteAccess(lock);
@@ -56,7 +56,7 @@ public class UserLoginCheckerTest {
     public void testisUserAllowedToLogin_User2TriesToLoginToSecondScreen3hoursAfterUser1() {
         Object[] existingLock = new Object[]{"TEST_USER_ID_1", threeHoursBefore()};
 
-        Lock lock = userLoginChecker.isUserAllowedToLogin(ID, STATUS, false, new User(
+        Lock lock = userLoginChecker.isUserAllowedToLogin(false, new User(
                 "TEST_USER_ID_2"), Arrays.asList(new Object[][]{existingLock}));
 
         assertReadAccess(lock);

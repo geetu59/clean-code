@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 //1 10 2 10
 // spare 5,5 1 18
 
-class GameTest {
+class GameTest1 {
 
 	Game game = new Game();
 

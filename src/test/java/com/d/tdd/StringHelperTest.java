@@ -1,43 +1,36 @@
 package com.d.tdd;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 
-class StringHelperTest {
-	//"", "A", "AA", "B", "BC"
-	StringHelper helper = new StringHelper();
+import static org.junit.jupiter.api.Assertions.*;
 
-	@Test
-	void testReplaceAInFirst2Positions() {
-		assertEquals("BCD", helper.replaceAInFirst2Positions("ABCD"));
-		assertEquals("CD", helper.replaceAInFirst2Positions("AACD"));
-		assertEquals("BCD", helper.replaceAInFirst2Positions("BACD"));
-		assertEquals("AA", helper.replaceAInFirst2Positions("AAAA"));
-		assertEquals("MNAA", helper.replaceAInFirst2Positions("MNAA"));
-		assertEquals("", helper.replaceAInFirst2Positions(""));
-		assertEquals("", helper.replaceAInFirst2Positions("A"));
-		assertEquals("", helper.replaceAInFirst2Positions("AA"));
-		assertEquals("B", helper.replaceAInFirst2Positions("B"));
-		assertEquals("BC", helper.replaceAInFirst2Positions("BC"));
-	}
-	
-	//""=>false, "A"=>false, "AB"=>true, "ABC"=>false, "AAA"=>true, "ABCAB"=>true, "ABCDEBA"=>false
-	//Red
-	//Green
-	//Refactor
+public class StringHelperTest {
+    StringHelper stringHelper = new StringHelper();
 
-	@Test
-	void testAreFirstTwoAndLastTwoCharsTheSame() {
-		assertFalse(helper.areFirstTwoAndLastTwoCharsTheSame(""));
-		assertFalse(helper.areFirstTwoAndLastTwoCharsTheSame("A"));
-		assertTrue(helper.areFirstTwoAndLastTwoCharsTheSame("AB"));
-		assertFalse(helper.areFirstTwoAndLastTwoCharsTheSame("ABC"));
-		assertTrue(helper.areFirstTwoAndLastTwoCharsTheSame("AAA"));
-		assertTrue(helper.areFirstTwoAndLastTwoCharsTheSame("ABCAB"));
-		assertFalse(helper.areFirstTwoAndLastTwoCharsTheSame("ABCDEBA"));	
-	}
+    //"ABCD" => "BCD", "AACD"=> "CD", "BACD"=>"BCD", "AAAA" => "AA", "MNAA"=>"MNAA" "" "A" "B" -> All test cases
+    //since this is very simple, we will add asserts in one test only
+    //follow red-> fail test green-> make it pass, refactor it then
+    @Test
+    void shouldRemoveAFromFirstTwoLettersOfString() {
+        assertEquals("BCD", stringHelper.replaceAInFirst2Positions("ABCD"));
+        assertEquals("CD", stringHelper.replaceAInFirst2Positions("AACD"));
+        assertEquals("BCD", stringHelper.replaceAInFirst2Positions("BACD"));
+        assertEquals("AA", stringHelper.replaceAInFirst2Positions("AAAA"));
+        assertEquals("MNAA", stringHelper.replaceAInFirst2Positions("MNAA"));
+        assertEquals("", stringHelper.replaceAInFirst2Positions(""));
+        assertEquals("", stringHelper.replaceAInFirst2Positions("A"));
+        assertEquals("B", stringHelper.replaceAInFirst2Positions("B"));
+    }
 
+    // ""=>false, "A"=>false, "AB"=>true, "ABC"=>false, "AAA"=>true, "ABCAB"=>true, "ABCDEBA"=>false
+    @Test
+    void shouldCheckIfFirstTwoAndLastTowCharactersAreSame() {
+        assertFalse(stringHelper.areFirstTwoAndLastTwoCharsTheSame(""));
+        assertFalse(stringHelper.areFirstTwoAndLastTwoCharsTheSame("A"));
+        assertFalse(stringHelper.areFirstTwoAndLastTwoCharsTheSame("ABC"));
+        assertFalse(stringHelper.areFirstTwoAndLastTwoCharsTheSame("ABCDEBA"));
+        assertTrue(stringHelper.areFirstTwoAndLastTwoCharsTheSame("AB"));
+        assertTrue(stringHelper.areFirstTwoAndLastTwoCharsTheSame("AAA"));
+        assertTrue(stringHelper.areFirstTwoAndLastTwoCharsTheSame("ABCAB"));
+    }
 }
