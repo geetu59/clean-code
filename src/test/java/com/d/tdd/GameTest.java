@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameTest {
-    static NewGame game = new NewGame();
+    NewGame game = new NewGame();
 
     /*TCs:
      * 1. All 0s
@@ -46,7 +46,7 @@ public class GameTest {
         assertEquals(42, game.score());
     }
 
-    private static void rollMultipleTimes(int pinsKnowDown, int numberOfRolls) {
+    private void rollMultipleTimes(int pinsKnowDown, int numberOfRolls) {
         for (int i = 0; i < numberOfRolls; i++) {
             game.roll(pinsKnowDown);
         }
