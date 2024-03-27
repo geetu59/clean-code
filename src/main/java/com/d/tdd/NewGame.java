@@ -13,11 +13,25 @@ public class NewGame {
         int index = 0;
         for (int frame = 0; frame < 10; frame++) {
             int rollsSum = rolls[index] + rolls[index + 1];
-            if (rollsSum == 10)
-                sum += rolls[index + 2];
-            sum += rollsSum;
-            index += 2;
+            if (isStrike(index)) {
+                sum += rollsSum + rolls[index + 2];
+                index++;
+            } else if (isSpare(rollsSum)) {
+                sum += rollsSum + rolls[index + 2];
+                index += 2;
+            } else {
+                sum += rollsSum;
+                index += 2;
+            }
         }
         return sum;
+    }
+
+    private static boolean isSpare(int rollsSum) {
+        return rollsSum == 10;
+    }
+
+    private boolean isStrike(int index) {
+        return isSpare(rolls[index]);
     }
 }
