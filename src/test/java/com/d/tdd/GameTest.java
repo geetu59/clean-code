@@ -10,27 +10,43 @@ public class GameTest {
     /*TCs:
      * 1. All 0s
      * 2. All 1s
-     * 3. 10 1s and 10 2s*/
+     * 3. 10 1s and 10 2s
+     * 4. Spare: 5 5 and 1 18s*/
     @Test
     void shouldGiveTheTotalScoreWhenAllRollsAre0() {
-        rollMutipleTimes(0, 20);
+        rollMultipleTimes(0, 20);
         assertEquals(0, game.score());
     }
 
     @Test
     void shouldGiveTheTotalScoreWhenAllRollsAre1() {
-        rollMutipleTimes(1, 20);
+        rollMultipleTimes(1, 20);
         assertEquals(20, game.score());
     }
 
     @Test
     void shouldGiveTheTotalScoreWhenHalfRollsAre1AndHalfAre2() {
-        rollMutipleTimes(1, 10);
-        rollMutipleTimes(2, 10);
+        rollMultipleTimes(1, 10);
+        rollMultipleTimes(2, 10);
         assertEquals(30, game.score());
     }
 
-    private static void rollMutipleTimes(int pinsKnowDown, int numberOfRolls) {
+    @Test
+    void shouldGiveTheTotalScoreWhenItIsASpare() {
+        rollMultipleTimes(5, 2);
+        rollMultipleTimes(1, 18);
+        assertEquals(29, game.score());
+    }
+
+    @Test
+    void shouldGiveTheTotalScoreWhenItIsASpareTwice() {
+        rollMultipleTimes(5, 2);
+        rollMultipleTimes(5, 2);
+        rollMultipleTimes(1, 16);
+        assertEquals(42, game.score());
+    }
+
+    private static void rollMultipleTimes(int pinsKnowDown, int numberOfRolls) {
         for (int i = 0; i < numberOfRolls; i++) {
             game.roll(pinsKnowDown);
         }
